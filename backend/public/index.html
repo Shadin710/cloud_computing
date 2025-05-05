@@ -1,0 +1,63 @@
+<!-- public/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Australia Fire Dashboard</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="style/nav.css" />
+  <link rel="stylesheet" href="style/top_bar.css" />
+
+
+  <style>
+    #map { height: 100vh; }
+  </style>
+</head>
+<body>
+    <div id="topbar">
+      <div id="left-title">🔥 FireApp Admin</div>
+      <div id="right-icons">
+        <span id="admin-name">Welcome, Admin</span>
+        <span id="notification">🔔</span>
+      </div>
+    </div>
+  
+    <div id="container">
+      <div id="sidebar">
+        <h2>🔥 FireApp</h2>
+        <ul>
+          <li><a href="#">Dashboard</a></li>
+          <li><a href="#">Report</a></li>
+          <li><a href="#">Fire Centers</a></li>
+          <li><a href="#">Settings</a></li>
+        </ul>
+      </div>
+  
+      <div id="main-content">
+        <div id="filter-bar">
+          <input type="text" placeholder="Search Location" />
+          <select id="region-select">
+            <option value="">All Regions</option>
+            <option value="NSW">New South Wales</option>
+            <option value="VIC">Victoria</option>
+            <option value="QLD">Queensland</option>
+            <option value="WA">Western Australia</option>
+            <option value="SA">South Australia</option>
+            <option value="TAS">Tasmania</option>
+            <option value="NT">Northern Territory</option>
+          </select>
+          <select id="confidence-select">
+            <option value="85">> 85%</option>
+            <option value="90">> 90%</option>
+            <option value="95">> 95%</option>
+          </select>
+        </div>
+        <div id="map"></div>
+      </div>
+    </div>
+  
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="script.js"></script>
+  </body>
+  
+</html>
