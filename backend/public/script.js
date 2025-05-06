@@ -14,30 +14,42 @@ const australiaBounds = L.latLngBounds(
     attribution: '© OpenStreetMap contributors',
   }).addTo(map);
 
-async function loadFireData() {
-  try {
-    const res = await fetch('/api/fires');
-    const data = await res.text(); // If CSV, parse here
-    const lines = data.split('\n').slice(1); // Skip CSV header
+  async function loadFireData() {
+    const today = new Date().toISOString().split("T")[0];
+    const days = 1; // Or grab from a filter input
 
-    for (let line of lines) {
-      const fields = line.split(',');
-      const [latitude, longitude, confidence] = [fields[0], fields[1], fields[8]];
+    try {
+      const res = await fetch(`/api/fires?date=${today}&days=${days}`);
+      const csv = await res.text();
+  
+      const lines = csv.split('\n').slice(1); // skip header
+      for (let line of lines) {
+        const fields = line.split(',');
+        const latitude = parseFloat(fields[1]);
+        const longitude = parseFloat(fields[2]);
+        const confidence = parseInt(fields[10]);
+        const brightness = fields[12];
+        const date = fields[6];
 
-      if (parseInt(confidence) > 85) {
-        L.circleMarker([latitude, longitude], {
+        
+        // console.log(fields);
+  
+        if (!latitude || !longitude || confidence < 85) continue;
+  
+        L.circleMarker([parseFloat(latitude), parseFloat(longitude)], {
           radius: 6,
           fillColor: "red",
           color: "darkred",
           weight: 1,
           opacity: 1,
           fillOpacity: 0.8
-        }).addTo(map).bindPopup(`🔥 Confidence: ${confidence}%`);
+        })
+        .addTo(map)
+        .bindPopup(`🔥 Fire<br>Confidence: ${confidence}%`);
       }
+    } catch (err) {
+      console.error('Failed to load fire data:', err);
     }
-  } catch (err) {
-    console.error('Error loading fire data:', err);
   }
-}
 
 loadFireData();
