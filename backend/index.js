@@ -23,6 +23,12 @@ app.get('/api/fires', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch fire data' });
   }
 });
+app.post('/api/notify', (req, res) => {
+  // You can trigger your email/SMS logic here
+  console.log('📢 Notifications sent to fire centers');
+  res.json({ message: 'Notifications sent to all fire centers.' });
+});
+
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);

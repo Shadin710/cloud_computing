@@ -51,5 +51,15 @@ const australiaBounds = L.latLngBounds(
       console.error('Failed to load fire data:', err);
     }
   }
+  document.getElementById('notifyBtn').addEventListener('click', async () => {
+    try {
+      const res = await fetch('/api/notify', { method: 'POST' });
+      const data = await res.json();
+      alert(data.message || 'Notifications sent!');
+    } catch (err) {
+      alert('Failed to send notifications.');
+      console.error(err);
+    }
+  });
 
 loadFireData();
