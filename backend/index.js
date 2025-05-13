@@ -29,6 +29,19 @@ app.post('/api/notify', (req, res) => {
   res.json({ message: 'Notifications sent to all fire centers.' });
 });
 
+app.get('/registration',(req,res)=>{
+
+});
+app.post("/registration",()=>{
+
+});
+app.get('/login', (req, res) => {
+
+});
+app.post('/login', (req, res) => {
+  
+});
+
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);

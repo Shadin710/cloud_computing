@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Register Fire Center</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="style/top_bar.css" />
+  <link rel="stylesheet" href="style/nav.css" />
+
+</head>
+<body>
+    <div id="topbar">
+        <div id="left-title">🔥 FireApp Admin</div>
+        <div id="right-icons">
+          <span id="admin-name">Admin</span>
+          <span id="notification">🔔</span>
+        </div>
+    </div>
+    <div id="container">
+        <div id="sidebar">
+          <h2>🔥 FireApp</h2>
+          <ul>
+            <li><a href="#">Dashboard</a></li>
+            <li><a href="#">Report</a></li>
+            <li><a href="#">Fire Centers</a></li>
+            <li><a href="#">Settings</a></li>
+          </ul>
+        </div>
+    
+        <div id="main-content">
+            <h2>Register Fire Center</h2>
+          <form method="POST" action="/register-center">
+            <input type="text" name="name" placeholder="Name" required /><br />
+            <input type="email" name="email" placeholder="Email" required /><br />
+            <input type="text" name="phone" placeholder="Phone" /><br />
+            <input type="text" name="mobile" placeholder="Mobile" /><br />
+            <input type="text" name="location" placeholder="Location" required /><br />
+            <input type="password" name="password" placeholder="Password" required /><br />
+            <button type="submit">Register Fire Center</button>
+          </form>
+        </div>
+      </div>
+
+</body>
+</html>
