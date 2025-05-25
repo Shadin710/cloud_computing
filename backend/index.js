@@ -29,11 +29,9 @@ app.post('/api/notify', (req, res) => {
   res.json({ message: 'Notifications sent to all fire centers.' });
 });
 
-app.get('/registration',(req,res)=>{
 
-});
-app.post("/registration",()=>{
-
+app.post("/register",(req,res)=>{
+  console.log("done");
 });
 app.get('/login', (req, res) => {
 

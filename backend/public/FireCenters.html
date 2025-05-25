@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fire Centers - Australia Fire Dashboard</title>
+  <link rel="stylesheet" href="./style/fireCenter.css">
+</head>
+<body>
+  <div id="topbar">
+    <div id="left-title">🔥 FireApp Admin</div>
+    <div id="right-icons">
+      <span id="admin-name">Welcome, Admin</span>
+      <span id="notification">🔔</span>
+    </div>
+  </div>
+
+  <div id="container">
+    <div id="sidebar">
+      <h2>🔥 FireApp</h2>
+      <ul>
+        <li><a href="#" onclick="showDashboard()">Dashboard</a></li>
+        <li><a href="#" onclick="showReport()">Report</a></li>
+        <li><a href="#" onclick="showFireCenters()" class="active">Fire Centers</a></li>
+        <li><a href="#" onclick="showSettings()">Settings</a></li>
+      </ul>
+    </div>
+
+    <div id="main-content">
+      <div class="page-header">
+        <h1>Fire Centers Management</h1>
+        <p>Manage and monitor all fire centers across Australia</p>
+      </div>
+
+      <div class="stats-container">
+        <div class="stat-card">
+          <div class="stat-number" id="totalCenters">8</div>
+          <div class="stat-label">Total Centers</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="activeCenters">7</div>
+          <div class="stat-label">Active Centers</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="inactiveCenters">1</div>
+          <div class="stat-label">Inactive Centers</div>
+        </div>
+      </div>
+
+      <div class="fire-centers-container">
+        <div class="table-header">
+          <h3>Fire Centers List</h3>
+          <button class="add-center-btn" onclick="addFireCenter()">
+            + Add New Center
+          </button>
+        </div>
+        
+        <table class="fire-centers-table">
+          <thead>
+            <tr>
+              <th>Center Name</th>
+              <th>State</th>
+              <th>Status</th>
+              <th>Last Updated</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="fireCentersTableBody">
+            <!-- Fire centers will be populated here -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  
+  <button id="notifyBtn" onclick="sendGlobalNotification()">
+    Send Notification   
+  </button>
+
+  <!-- Delete Confirmation Modal -->
+  <div id="deleteModal" class="modal">
+    <div class="modal-content">
+      <h3>Confirm Delete</h3>
+      <p>Are you sure you want to delete this fire center? This action cannot be undone.</p>
+      <div class="modal-buttons">
+        <button class="modal-btn modal-btn-cancel" onclick="closeDeleteModal()">Cancel</button>
+        <button class="modal-btn modal-btn-confirm" onclick="confirmDelete()">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="./script/fire_center.js"></script>
+
+</body>
+</html>

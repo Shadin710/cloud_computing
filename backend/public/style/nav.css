@@ -40,11 +40,16 @@
     font-size: 16px;
     display: block;
     transition: color 0.2s;
+    padding: 8px 12px;
+    border-radius: 4px;
   }
   
-  #sidebar ul li a:hover {
+  #sidebar ul li a:hover,
+  #sidebar ul li a.active {
     color: #fff;
+    background-color: #3a3a54;
   }
+
   
   #map-container {
     flex: 1;

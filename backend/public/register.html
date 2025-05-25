@@ -2,44 +2,134 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Register Fire Center</title>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <link rel="stylesheet" href="style/top_bar.css" />
-  <link rel="stylesheet" href="style/nav.css" />
-
+  <title>Register Fire Center - Australia Fire Dashboard</title>
+  <link rel="stylesheet" href="./style/register.css">
 </head>
 <body>
-    <div id="topbar">
-        <div id="left-title">🔥 FireApp Admin</div>
-        <div id="right-icons">
-          <span id="admin-name">Admin</span>
-          <span id="notification">🔔</span>
-        </div>
+  <div id="topbar">
+    <div id="left-title">🔥 FireApp Admin</div>
+    <div id="right-icons">
+      <span id="admin-name">Welcome, Admin</span>
+      <span id="notification">🔔</span>
     </div>
-    <div id="container">
-        <div id="sidebar">
-          <h2>🔥 FireApp</h2>
-          <ul>
-            <li><a href="#">Dashboard</a></li>
-            <li><a href="#">Report</a></li>
-            <li><a href="#">Fire Centers</a></li>
-            <li><a href="#">Settings</a></li>
-          </ul>
-        </div>
-    
-        <div id="main-content">
-            <h2>Register Fire Center</h2>
-          <form method="POST" action="/register-center">
-            <input type="text" name="name" placeholder="Name" required /><br />
-            <input type="email" name="email" placeholder="Email" required /><br />
-            <input type="text" name="phone" placeholder="Phone" /><br />
-            <input type="text" name="mobile" placeholder="Mobile" /><br />
-            <input type="text" name="location" placeholder="Location" required /><br />
-            <input type="password" name="password" placeholder="Password" required /><br />
-            <button type="submit">Register Fire Center</button>
-          </form>
-        </div>
+  </div>
+
+  <div id="container">
+    <div id="sidebar">
+      <h2>🔥 FireApp</h2>
+      <ul>
+        <li><a href="#" onclick="navigateTo('dashboard')">Dashboard</a></li>
+        <li><a href="#" onclick="navigateTo('report')">Report</a></li>
+        <li><a href="#" onclick="navigateTo('fire-centers')" class="active">Fire Centers</a></li>
+        <li><a href="#" onclick="navigateTo('settings')">Settings</a></li>
+      </ul>
+    </div>
+
+    <div id="main-content">
+      <div class="breadcrumb">
+        <a href="#" onclick="navigateTo('fire-centers')">Fire Centers</a> / Register New Center
       </div>
 
+      <div class="page-header">
+        <h1>🔥 Register New Fire Center</h1>
+        <p>Add a new fire center to the FireApp network</p>
+      </div>
+
+      <div class="form-container">
+        <div id="successMessage" class="success-message">
+          Fire center has been registered successfully!
+        </div>
+
+        <form class="register-form" id="registerForm" onsubmit="submitRegistration(event)">
+          <div class="form-section">
+            <h3>📍 Basic Information</h3>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="centerName">Center Name <span class="required">*</span></label>
+                <input type="text" id="centerName" name="name" required placeholder="e.g., Sydney Fire Control Center">
+              </div>
+              <div class="form-group">
+                <label for="centerState">State/Territory <span class="required">*</span></label>
+                <select id="centerState" name="state" required>
+                  <option value="">Select State/Territory</option>
+                  <option value="New South Wales">New South Wales</option>
+                  <option value="Victoria">Victoria</option>
+                  <option value="Queensland">Queensland</option>
+                  <option value="Western Australia">Western Australia</option>
+                  <option value="South Australia">South Australia</option>
+                  <option value="Tasmania">Tasmania</option>
+                  <option value="Northern Territory">Northern Territory</option>
+                  <option value="Australian Capital Territory">Australian Capital Territory</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="centerLocation">Location/Address <span class="required">*</span></label>
+              <textarea id="centerLocation" name="location" required placeholder="Enter the full address of the fire center including street, suburb, city, and postcode"></textarea>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h3>📞 Contact Information</h3>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="centerEmail">Email Address <span class="required">*</span></label>
+                <input type="email" id="centerEmail" name="email" required placeholder="center@fireapp.gov.au">
+              </div>
+              <div class="form-group">
+                <label for="centerPhone">Primary Phone Number</label>
+                <input type="tel" id="centerPhone" name="phone" placeholder="+61 2 1234 5678">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="centerMobile">Emergency Mobile</label>
+                <input type="tel" id="centerMobile" name="mobile" placeholder="+61 412 345 678">
+              </div>
+              <div class="form-group">
+                <label for="centerFax">Fax Number</label>
+                <input type="tel" id="centerFax" name="fax" placeholder="+61 2 1234 5679">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h3>⚙️ System Configuration</h3>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="centerPassword">Access Password <span class="required">*</span></label>
+                <input type="password" id="centerPassword" name="password" required placeholder="Secure password for center access">
+              </div>
+              <div class="form-group">
+                <label for="centerStatus">Initial Status</label>
+                <select id="centerStatus" name="status">
+                  <option value="active">Active</option>
+                  <option value="inactive">Inactive</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="centerDescription">Description & Coverage Area</label>
+              <textarea id="centerDescription" name="description" placeholder="Brief description of the fire center's role, coverage area, and operational capacity"></textarea>
+            </div>
+          </div>
+
+          <div class="form-buttons">
+            <button type="button" class="btn btn-secondary" onclick="cancelRegistration()">
+              ← Cancel
+            </button>
+            <button type="submit" class="btn btn-primary">
+              🔥 Register Fire Center
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="./script/register.js"> </script>
 </body>
 </html>
