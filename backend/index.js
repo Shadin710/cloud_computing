@@ -27,10 +27,46 @@ app.get('/api/fires', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch fire data' });
   }
 });
-app.post('/api/notify', (req, res) => {
-  // You can trigger your email/SMS logic here
-  console.log('📢 Notifications sent to fire centers');
-  res.json({ message: 'Notifications sent to all fire centers.' });
+// POST: Send notification by fire center ID
+app.post('/api/notify-center/:id', async (req, res) => {
+  const centerId = req.params.id;
+
+  try {
+    const result = await pool.query('SELECT * FROM "fireCenters" WHERE id = $1', [centerId]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'Fire center not found.' });
+    }
+    
+    const center = result.rows[0];
+    if (!center.mobile) {
+      return res.status(400).json({ message: 'No mobile number available for this center.' });
+    }
+
+    // Sms content
+    const smsPayload = {
+            "phone": "+610479060864",
+            "message": "🚨 Fire alert near your station. Please respond immediately"
+    };
+
+    // Email content
+    const emailPayload = {
+      to: center.email,
+      subject: `🚨 Fire Alert Notification - ${center.name}`,
+      text: `Dear ${center.name},\n\nA fire incident has been detected in your region.\n\nLocation: ${center.location}\n\nPlease take appropriate action.\n\n- FireApp Australia`
+    };
+
+    // Send email via Node-RED
+    await axios.post('http://localhost:1880/send-email', emailPayload);
+    await axios.post('http://localhost:1880/send-msg', smsPayload);
+
+
+    res.json({ message: `Notification sent to ${center.name}` });
+
+  } catch (err) {
+    console.error('Error sending notification:', err);
+    res.status(500).json({ message: 'Failed to send notification.' });
+  }
 });
 
 

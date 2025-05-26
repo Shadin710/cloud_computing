@@ -142,10 +142,8 @@ async function handleLogin(event) {
 
     // Admin login
     function adminLogin() {
-      if (confirm('Redirect to Admin Login page?')) {
-        alert('Redirecting to Admin Login...');
-        // In a real app: window.location.href = '/admin-login';
-      }
+        localStorage.setItem('user', "Admin");
+        window.location.href = "../index.html";
     }
 
     // Form enhancements
