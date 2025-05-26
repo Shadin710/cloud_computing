@@ -79,7 +79,7 @@ async function handleLogin(event) {
       localStorage.setItem('user', JSON.stringify(result.user));
 
       setTimeout(() => {
-        window.location.href = '../index.html'; // Redirect to fire center dashboard
+        window.location.href = '../user_dashboard.html'; // Redirect to fire center dashboard
       }, 2000);
     } else {
       showMessage('error', result.message);
