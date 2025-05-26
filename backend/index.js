@@ -2,12 +2,16 @@ const express = require('express');
 const axios = require('axios');
 const app = express();
 const cors = require('cors');
+const pool = require('./db');
+
 
 const PORT = 3000;
 
 app.use(cors());
 
 app.use(express.static('public'));
+app.use(express.json()); // To parse JSON body
+
 
 app.get('/api/fires', async (req, res) => {
   const { date, days } = req.query;
@@ -30,12 +34,27 @@ app.post('/api/notify', (req, res) => {
 });
 
 
-app.post("/register",(req,res)=>{
-  console.log("done");
-});
-app.get('/login', (req, res) => {
+app.post('/register', async (req, res) => {
+  const {
+    name, state, location, email, phone,
+    mobile, fax, password, status, description
+  } = req.body;
 
+  try {
+    const result = await pool.query(
+      `INSERT INTO fireCenters
+      (name, email, phone, mobile, state, location, password, status)
+      VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING id`,
+      [name,email, phone, mobile, state, location, password, status]
+    );
+
+    res.json({ message: '✅ Fire center registered successfully!', centerId: result.rows[0].id });
+  } catch (err) {
+    console.error('❌ Error saving to DB:', err);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 });
+
 app.post('/login', (req, res) => {
   
 });
