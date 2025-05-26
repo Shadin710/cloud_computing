@@ -14,10 +14,16 @@
   </style>
 </head>
 <body>
+    <script>
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (!user || !user.email) {
+        window.location.href = '/login.html';
+        }
+    </script>
     <div id="topbar">
       <div id="left-title">🔥 FireApp Admin</div>
       <div id="right-icons">
-        <span id="admin-name">Welcome, Admin</span>
+        <span id="admin-name">Welcome, <span id="fireCenterName">Fire Center</span></span>
         <span id="notification">🔔</span>
       </div>
     </div>
@@ -29,7 +35,7 @@
           <li><a href="#">Dashboard</a></li>
           <li><a href="#">Resource Allocation</a></li>
           <li><a href="#">Recent Fires</a></li>
-          <li><a href="#">Logout</a></li>
+          <li><a href="#" onclick="logout()">Logout</a></li>
         </ul>
       </div>
   
@@ -55,7 +61,6 @@
         <div id="map"></div>
       </div>
     </div>
-    <button id="notifyBtn">Send Notification to All Fire Centers</button>
 
   
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>

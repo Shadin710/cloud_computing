@@ -1,3 +1,13 @@
+document.addEventListener('DOMContentLoaded', () => {
+  const user = JSON.parse(localStorage.getItem('user'));
+
+  if (!user || !user.name) {
+    // No session — redirect to login
+    window.location.href = '/login.html';
+  } else {
+    document.getElementById('fireCenterName').textContent = user.name;
+  }
+})
 const australiaBounds = L.latLngBounds(
     [-44, 112],  // Southwest
     [-10, 154]   // Northeast
@@ -61,5 +71,8 @@ const australiaBounds = L.latLngBounds(
       console.error(err);
     }
   });
-
+function logout() {
+  localStorage.removeItem('user');
+  window.location.href = '/login.html';
+}
 loadFireData();
