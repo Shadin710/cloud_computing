@@ -51,23 +51,7 @@
     }
   }
 
-  // Navigation function
-  function navigateTo(page) {
-    switch(page) {
-      case 'dashboard':
-        window.location.href = './../index.html'; 
-        break;
-      case 'report':
-        alert('Navigating to Report...');
-        break;
-      case 'fire-centers':
-        window.location.href = './../FireCenters.html'; 
-        break;
-      case 'settings':
-        alert('Navigating to Settings...');
-        break;
-    }
-  }
+
 
   // Form validation and enhancement
   document.addEventListener('DOMContentLoaded', function() {
@@ -105,3 +89,21 @@
       });
     });
   });}
+
+  // Navigation function
+  function navigateTo(page) {
+    switch(page) {
+      case 'dashboard':
+        window.location.href = './../index.html'; 
+        break;
+      case 'report':
+        alert('Navigating to Report...');
+        break;
+      case 'fire-centers':
+        window.location.href = './../FireCenters.html'; 
+        break;
+      case 'settings':
+        alert('Navigating to Settings...');
+        break;
+    }
+  }

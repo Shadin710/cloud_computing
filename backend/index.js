@@ -42,9 +42,9 @@ app.post('/register', async (req, res) => {
 
   try {
     const result = await pool.query(
-      `INSERT INTO fireCenters
+      `INSERT INTO "fireCenters"
       (name, email, phone, mobile, state, location, password, status)
-      VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING id`,
+      VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING id`,
       [name,email, phone, mobile, state, location, password, status]
     );
 
