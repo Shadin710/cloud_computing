@@ -14,6 +14,12 @@
   </style>
 </head>
 <body>
+      <script>
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (!user || !user.email) {
+        window.location.href = '/login.html';
+        }
+    </script>
     <div id="topbar">
       <div id="left-title">🔥 FireApp Admin</div>
       <div id="right-icons">
@@ -26,16 +32,16 @@
       <div id="sidebar">
         <h2>🔥 FireApp</h2>
         <ul>
-          <li><a href="#">Dashboard</a></li>
-          <li><a href="#">Report</a></li>
+          <li><a href="./index.html">Dashboard</a></li>
+          <!-- <li><a href="#">Report</a></li> -->
           <li><a href="./FireCenters.html">Fire Centers</a></li>
-          <li><a href="#">Settings</a></li>
+          <li><a href="#" onclick="logout()">Logout</a></li>
         </ul>
       </div>
   
       <div id="main-content">
         <div id="filter-bar">
-          <input type="text" placeholder="Search Location" />
+          <input type="text" id="location-search" placeholder="Search Location" />
           <select id="region-select">
             <option value="">All Regions</option>
             <option value="NSW">New South Wales</option>
@@ -46,11 +52,11 @@
             <option value="TAS">Tasmania</option>
             <option value="NT">Northern Territory</option>
           </select>
-          <select id="confidence-select">
+          <!-- <select id="confidence-select">
             <option value="85">> 85%</option>
             <option value="90">> 90%</option>
             <option value="95">> 95%</option>
-          </select>
+          </select> -->
         </div>
         <div id="map"></div>
       </div>

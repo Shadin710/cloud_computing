@@ -19,9 +19,8 @@
       <h2>🔥 FireApp</h2>
       <ul>
         <li><a href="#" onclick="navigateTo('dashboard')">Dashboard</a></li>
-        <li><a href="#" onclick="navigateTo('report')">Report</a></li>
         <li><a href="#" onclick="navigateTo('fire-centers')" class="active">Fire Centers</a></li>
-        <li><a href="#" onclick="navigateTo('settings')">Settings</a></li>
+        <li><a href="#" onclick="logout()">Logout</a></li>
       </ul>
     </div>
 
@@ -111,16 +110,13 @@
               </div>
             </div>
 
-            <div class="form-group">
-              <label for="centerDescription">Description & Coverage Area</label>
-              <textarea id="centerDescription" name="description" placeholder="Brief description of the fire center's role, coverage area, and operational capacity"></textarea>
-            </div>
+
           </div>
 
           <div class="form-buttons">
-            <button type="button" class="btn btn-secondary" onclick="cancelRegistration()">
+            <a  href="./FireCenters.html" class="btn btn-secondary">
               ← Cancel
-            </button>
+            </a>
             <button type="submit" class="btn btn-primary">
               🔥 Register Fire Center
             </button>

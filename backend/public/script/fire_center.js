@@ -222,3 +222,7 @@ window.onclick = function (event) {
 document.addEventListener('DOMContentLoaded', function () {
   populateFireCentersTable();
 });
+function logout() {
+  localStorage.removeItem('user');
+  window.location.href = '/login.html';
+}

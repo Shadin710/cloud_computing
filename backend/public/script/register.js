@@ -44,12 +44,12 @@
         alert('❌ Failed to register fire center.');
 });
 
-  // Cancel registration
-  function cancelRegistration() {
-    if (confirm('Are you sure you want to cancel? All entered data will be lost.')) {
-      navigateTo('fire-centers');
+      // Cancel registration
+    function cancelRegistration() {
+      if (confirm('Are you sure you want to cancel? All entered data will be lost.')) {
+          navigateTo('fire-centers');
+      }
     }
-  }
 
 
 
@@ -107,3 +107,7 @@
         break;
     }
   }
+  function logout() {
+  localStorage.removeItem('user');
+  window.location.href = '/login.html';
+}

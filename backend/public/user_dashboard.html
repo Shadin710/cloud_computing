@@ -32,7 +32,7 @@
       <div id="sidebar">
         <h2>🔥 FireApp</h2>
         <ul>
-          <li><a href="#">Dashboard</a></li>
+          <li><a href="./user_dashboard.html">Dashboard</a></li>
           <li><a href="#">Resource Allocation</a></li>
           <li><a href="#">Recent Fires</a></li>
           <li><a href="#" onclick="logout()">Logout</a></li>
@@ -41,7 +41,7 @@
   
       <div id="main-content">
         <div id="filter-bar">
-          <input type="text" placeholder="Search Location" />
+          <input type="text" id="location-search" placeholder="Search Location" />
           <select id="region-select">
             <option value="">All Regions</option>
             <option value="NSW">New South Wales</option>
@@ -52,17 +52,17 @@
             <option value="TAS">Tasmania</option>
             <option value="NT">Northern Territory</option>
           </select>
-          <select id="confidence-select">
+          <!-- <select id="confidence-select">
             <option value="85">> 85%</option>
             <option value="90">> 90%</option>
             <option value="95">> 95%</option>
-          </select>
+          </select> -->
         </div>
         <div id="map"></div>
       </div>
     </div>
 
-  
+    <button id="notifyBtn" hidden>Send Notification to All Fire Centers</button>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="./script/script.js"></script>
   </body>

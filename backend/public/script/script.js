@@ -8,6 +8,53 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('fireCenterName').textContent = user.name;
   }
 })
+const regionCoordinates = {
+  "NSW": { center: [-31.2532, 146.9211], zoom: 7 },
+  "VIC": { center: [-37.4713, 144.7852], zoom: 7 },
+  "QLD": { center: [-20.9176, 142.7028], zoom: 7 },
+  "WA":  { center: [-25.0423, 117.7932], zoom: 7 },
+  "SA":  { center: [-30.0002, 136.2092], zoom: 7 },
+  "TAS": { center: [-41.4545, 145.9707], zoom: 7 },
+  "NT":  { center: [-19.4914, 132.5509], zoom: 7 }
+};
+document.getElementById('region-select').addEventListener('change', function () {
+  const selectedRegion = this.value;
+
+  if (!selectedRegion) {
+    map.setView([-25.2744, 133.7751], 5); // Reset to Australia
+  } else if (regionCoordinates[selectedRegion]) {
+    const { center, zoom } = regionCoordinates[selectedRegion];
+    map.setView(center, zoom);
+  }
+});
+
+// location search
+document.getElementById('location-search').addEventListener('keypress', async function (e) {
+  if (e.key === 'Enter') {
+    const query = this.value.trim();
+    if (!query) return;
+
+    try {
+      const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}+Australia`);
+      const results = await res.json();
+
+      if (results.length > 0) {
+        const { lat, lon, display_name } = results[0];
+        map.setView([lat, lon], 10); // Zoom to location
+        L.popup()
+          .setLatLng([lat, lon])
+          .setContent(`📍 ${display_name}`)
+          .openOn(map);
+      } else {
+        alert('No location found.');
+      }
+    } catch (err) {
+      console.error('Location search failed:', err);
+      alert('Search error. Please try again.');
+    }
+  }
+});
+
 const australiaBounds = L.latLngBounds(
     [-44, 112],  // Southwest
     [-10, 154]   // Northeast
