@@ -21,6 +21,8 @@ app.get('/api/fires', async (req, res) => {
       `https://firms.modaps.eosdis.nasa.gov/api/country/csv/d65be8a1fc863f580015626403478862/MODIS_NRT/AUS/${days || 1}/${date || new Date().toISOString().split("T")[0]}`
     );
 
+
+
     res.send(response.data);
   } catch (err) {
     console.error(err);
@@ -45,7 +47,7 @@ app.post('/api/notify-center/:id', async (req, res) => {
 
     // Sms content
     const smsPayload = {
-            "phone": "+610479060864",
+            "phone": "+61479060864",
             "message": "🚨 Fire alert near your station. Please respond immediately"
     };
 
@@ -121,6 +123,17 @@ app.post('/login', async (req, res) => {
   } catch (err) {
     console.error('Login failed:', err);
     res.status(500).json({ message: 'Server error during login.' });
+  }
+});
+
+//fire centers data
+app.get('/api/fire-centers', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM "fireCenters" ORDER BY id');
+    res.json(result.rows);
+  } catch (err) {
+    console.error('Error fetching fire centers:', err);
+    res.status(500).json({ message: 'Failed to fetch fire centers' });
   }
 });
 

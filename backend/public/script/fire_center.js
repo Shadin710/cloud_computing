@@ -69,47 +69,39 @@ let fireCenters = [
 let centerToDelete = null;
 
 // Populate the fire centers table
-function populateFireCentersTable() {
+async function populateFireCentersTable() {
   const tbody = document.getElementById('fireCentersTableBody');
   tbody.innerHTML = '';
 
-  fireCenters.forEach(center => {
-    const row = document.createElement('tr');
-    row.innerHTML = `
-            <td>
-              <div class="center-name">${center.name}</div>
-            </td>
-            <td>
-              <div class="center-state">${center.state}</div>
-            </td>
-            <td>
-              <span class="status-badge status-${center.status}">
-                ${center.status}
-              </span>
-            </td>
-            <td>${center.lastUpdated}</td>
-            <td>
-              <div class="action-buttons">
-                <button class="btn btn-notify" onclick="sendNotification(${center.id})" title="Send Notification">
-                  📢
-                </button>
-                <button class="btn btn-edit" onclick="editFireCenter(${center.id})" title="Edit Center">
-                  ✏️
-                </button>
-                <button class="btn btn-view" onclick="viewFireCenter(${center.id})" title="View Details">
-                  👁️
-                </button>
-                <button class="btn btn-delete" onclick="deleteFireCenter(${center.id})" title="Delete Center">
-                  🗑️
-                </button>
-              </div>
-            </td>
-          `;
-    tbody.appendChild(row);
-  });
+  try {
+    const res = await fetch('/api/fire-centers');
+    const fireCenters = await res.json();
 
-  updateStats();
+    fireCenters.forEach(center => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td><div class="center-name">${center.name}</div></td>
+        <td><div class="center-state">${center.state || 'N/A'}</div></td>
+        <td><span class="status-badge status-${center.status || 'inactive'}">${center.status || 'inactive'}</span></td>
+        <td>
+          <div class="action-buttons">
+            <button class="btn btn-notify" onclick="sendNotification(${center.id})" title="Send Notification">📢</button>
+            <button class="btn btn-edit" onclick="editFireCenter(${center.id})" title="Edit Center">✏️</button>
+            <button class="btn btn-view" onclick="viewFireCenter(${center.id})" title="View Details">👁️</button>
+            <button class="btn btn-delete" onclick="deleteFireCenter(${center.id})" title="Delete Center">🗑️</button>
+          </div>
+        </td>
+      `;
+      tbody.appendChild(row);
+    });
+
+    updateStats();
+  } catch (err) {
+    console.error('Failed to load fire centers:', err);
+    tbody.innerHTML = '<tr><td colspan="5">Error loading data</td></tr>';
+  }
 }
+
 
 // Update statistics
 function updateStats() {
