@@ -55,7 +55,7 @@
 async function handleLogin(event) {
   event.preventDefault();
 
-  const email = document.getElementById('email').value.trim();
+  const name = document.getElementById('name').value.trim();
   const password = document.getElementById('password').value;
   const rememberMe = document.getElementById('rememberMe').checked;
 
@@ -64,10 +64,10 @@ async function handleLogin(event) {
   showLoading(true);
 
   try {
-    const response = await fetch('/login', {
+    const response = await fetch('/admin_login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password })
+      body: JSON.stringify({ name, password })
     });
 
     const result = await response.json();
@@ -76,10 +76,10 @@ async function handleLogin(event) {
       showMessage('success', result.message);
 
       // Optionally store user info (use cookies/session/JWT in real apps)
-      localStorage.setItem('user', JSON.stringify(result.user));
+      localStorage.setItem('user', "Admin");
 
       setTimeout(() => {
-        window.location.href = '../user_dashboard.html'; // Redirect to fire center dashboard
+        window.location.href = '../index.html'; // Redirect to fire center dashboard
       }, 2000);
     } else {
       showMessage('error', result.message);
@@ -142,7 +142,8 @@ async function handleLogin(event) {
 
     // Admin login
     function adminLogin() {
-        window.location.href = "../admin_login.html";
+        localStorage.setItem('user', "Admin");
+        window.location.href = "../index.html";
     }
 
     // Form enhancements

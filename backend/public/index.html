@@ -16,7 +16,7 @@
 <body>
       <script>
         const user = JSON.parse(localStorage.getItem('user'));
-        if (!user || !user.email) {
+        if (user =="Admin") {
         window.location.href = '/login.html';
         }
     </script>

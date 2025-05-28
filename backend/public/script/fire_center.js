@@ -41,14 +41,6 @@ let fireCenters = [
     lastUpdated: "2024-05-26 11:30"
   },
   {
-    id: 6,
-    name: "Darwin Emergency Hub",
-    state: "Northern Territory",
-    status: "inactive",
-    email: "firecenter@help.com.au",
-    lastUpdated: "2024-05-25 16:45"
-  },
-  {
     id: 7,
     name: "Hobart Fire Center",
     state: "Tasmania",
@@ -56,14 +48,7 @@ let fireCenters = [
     email: "firecenter@help.com.au",
     lastUpdated: "2024-05-26 10:20"
   },
-  {
-    id: 8,
-    name: "Canberra Fire Control",
-    state: "Australian Capital Territory",
-    status: "active",
-    email: "firecenter@help.com.au",
-    lastUpdated: "2024-05-26 14:00"
-  }
+
 ];
 
 let centerToDelete = null;
@@ -104,14 +89,20 @@ async function populateFireCentersTable() {
 
 
 // Update statistics
-function updateStats() {
-  const total = fireCenters.length;
-  const active = fireCenters.filter(center => center.status === 'active').length;
-  const inactive = fireCenters.filter(center => center.status === 'inactive').length;
+async function updateStats() {
+  try {
+    const res = await fetch('/api/fire-centers/stats');
+    const stats = await res.json();
 
-  document.getElementById('totalCenters').textContent = total;
-  document.getElementById('activeCenters').textContent = active;
-  document.getElementById('inactiveCenters').textContent = inactive;
+    document.getElementById('totalCenters').textContent = stats.total;
+    document.getElementById('activeCenters').textContent = stats.active;
+    document.getElementById('inactiveCenters').textContent = stats.inactive;
+  } catch (err) {
+    console.error('Error fetching stats:', err);
+    document.getElementById('totalCenters').textContent = '—';
+    document.getElementById('activeCenters').textContent = '—';
+    document.getElementById('inactiveCenters').textContent = '—';
+  }
 }
 
 // Send notification to specific fire center
@@ -167,15 +158,29 @@ function closeDeleteModal() {
 }
 
 // Confirm delete
-function confirmDelete() {
-  if (centerToDelete) {
-    const center = fireCenters.find(c => c.id === centerToDelete);
-    if (center) {
-      fireCenters = fireCenters.filter(c => c.id !== centerToDelete);
-      populateFireCentersTable();
-      alert(`${center.name} has been deleted successfully.`);
+async function confirmDelete() {
+  if (!centerToDelete) return;
+
+  try {
+    const res = await fetch(`/api/fire-centers/${centerToDelete}`, {
+      method: 'DELETE'
+    });
+
+    const result = await res.json();
+
+    if (res.ok) {
+      alert('✅ Fire center deleted.');
+      populateFireCentersTable(); // refresh the table
+    } else {
+      alert('❌ ' + result.message);
     }
+  } catch (err) {
+    console.error('Error deleting fire center:', err);
+    alert('❌ Could not delete fire center.');
   }
+
+  document.getElementById('deleteModal').style.display = 'none';
+  centerToDelete = null;
   closeDeleteModal();
 }
 

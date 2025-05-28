@@ -125,6 +125,36 @@ app.post('/login', async (req, res) => {
     res.status(500).json({ message: 'Server error during login.' });
   }
 });
+app.post('/admin_login', async (req, res) => {
+  const { name, password } = req.body;
+
+  try {
+    const result = await pool.query('SELECT * FROM "admin_login" WHERE name = $1', [name]);
+    
+    if (result.rows.length === 0) {
+      return res.status(401).json({ message: 'Invalid name or password.' });
+    }
+
+    const user = result.rows[0];
+    // const match = await bcrypt.compare(password, user.password);
+
+    if (password != user.password) {
+      return res.status(401).json({ message: 'Invalid name or password.' });
+    }
+
+    // Return user info (or token in real apps)
+    res.status(200).json({
+      message: `Welcome back, ${user.name}!`,
+      user: {
+        name: user.name,
+        id: user.id
+      }
+    });
+  } catch (err) {
+    console.error('Login failed:', err);
+    res.status(500).json({ message: 'Server error during login.' });
+  }
+});
 
 //fire centers data
 app.get('/api/fire-centers', async (req, res) => {
@@ -136,6 +166,48 @@ app.get('/api/fire-centers', async (req, res) => {
     res.status(500).json({ message: 'Failed to fetch fire centers' });
   }
 });
+// deleting fire centers
+
+app.delete('/api/fire-centers/:id', async (req, res) => {
+  const centerId = req.params.id;
+
+  try {
+    const result = await pool.query('DELETE FROM "fireCenters" WHERE id = $1', [centerId]);
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ message: 'Fire center not found.' });
+    }
+
+    res.json({ message: 'Fire center deleted successfully.' });
+  } catch (err) {
+    console.error('Delete error:', err);
+    res.status(500).json({ message: 'Failed to delete fire center.' });
+  }
+});
+
+// getting the fire centers
+app.get('/api/fire-centers/stats', async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT 
+        COUNT(*) AS total,
+        COUNT(*) FILTER (WHERE status = 'active') AS active,
+        COUNT(*) FILTER (WHERE status = 'inactive') AS inactive
+      FROM "fireCenters"
+    `);
+
+    const stats = result.rows[0];
+    res.json({
+      total: parseInt(stats.total),
+      active: parseInt(stats.active),
+      inactive: parseInt(stats.inactive)
+    });
+  } catch (err) {
+    console.error('Error fetching stats:', err);
+    res.status(500).json({ message: 'Failed to fetch fire center stats.' });
+  }
+});
+
 
 
 app.listen(PORT, () => {
